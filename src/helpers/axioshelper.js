@@ -27,3 +27,8 @@ export const postUser = async (dataObj) => {
   const url = adminEP;
   return apiProcessor({ method: "post", url, dataObj });
 };
+
+export const loginUser = async (dataObj) => {
+  const url = adminEP + "/login";
+  return apiProcessor({ method: "post", url, dataObj });
+};
