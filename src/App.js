@@ -1,14 +1,11 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 import "./App.css";
+import { Registration } from "./pages/login-register/Registration";
 
 function App() {
   return (
     <div className="App">
-      <h1>hello world</h1>
-      <Button variant="primary">
-        hello<i class="fa-brands fa-react"></i>
-      </Button>
+      <Registration></Registration>
     </div>
   );
 }
