@@ -1,26 +1,30 @@
 import React, { useState } from "react";
 import { Alert, Button, Container, Form, Spinner } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { postUserAction } from "../../pages/login-register/signInUpAction";
 import "./RegisterForm.css";
 
+const initialState = {
+  fName: "Dipak",
+  lName: "Paudel",
+  email: "paudelsantosh508@gmail.com",
+  phone: "0452450087",
+  password: "Dipak1234",
+  confirmPassword: "Dipak1234",
+  address: "123 martin street",
+};
 export const RegisterForm = () => {
-  const initialState = {
-    fName: "Dipak",
-    lName: "Paudel",
-    email: "paudelsantosh508@gmail.com",
-    phone: "0452450087",
-    password: "Dipak1234",
-    confirmPassword: "Dipak1234",
-    address: "123 martin street",
-  };
+  const dispatch = useDispatch();
   const [form, setForm] = useState(initialState);
   const [error, setError] = useState(false);
+  //pull data from redux store
+  const { isLoading, response } = useSelector((state) => state.signInUp);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({
       ...form,
       [name]: value,
     });
-    console.log(form);
   };
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,7 +33,7 @@ export const RegisterForm = () => {
     }
     setError(false);
     const { confirmPassword, ...rest } = form;
-    console.log(rest);
+    dispatch(postUserAction(rest));
   };
   return (
     <div>
@@ -125,14 +129,27 @@ export const RegisterForm = () => {
                 Passwords didnot match
               </Alert>
             </Form.Group>
+            <Form.Group>
+              {response.message && (
+                <Alert
+                  variant={response.status === "success" ? "success" : "danger"}
+                >
+                  {response.message}
+                </Alert>
+              )}
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Button type="submit">
-                Register
-                {/* <Spinner
-                  variant="primary"
-                  animation="border"
-                  size="sm"
-                ></Spinner> */}
+                {isLoading ? (
+                  <Spinner
+                    variant="primary"
+                    animation="border"
+                    size="sm"
+                  ></Spinner>
+                ) : (
+                  "signUp"
+                )}
               </Button>
             </Form.Group>
           </Form>
